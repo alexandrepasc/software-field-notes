@@ -1,0 +1,7 @@
+{% if page.tags.size > 0 %}
+<div class="post-tags">
+  {% for tag in page.tags %}
+    <a class="tag-button" href="{{ site.github.url }}/tags/{{ tag | slugify }}">{{ tag }}</a>
+  {% endfor %}
+</div>
+{% endif %}

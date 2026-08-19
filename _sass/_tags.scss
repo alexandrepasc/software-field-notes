@@ -1,0 +1,49 @@
+/*
+  Tag buttons: shown on each post (right after the publication date) and
+  as a cloud on /tags
+*/
+
+.tag-button {
+  display: inline-block;
+  padding: 2px 10px;
+  margin: 2px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  color: var(--brand);
+  text-decoration: none;
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
+.tag-button:hover {
+  background-color: var(--brand);
+  border-color: var(--brand);
+  color: var(--bg);
+}
+.tag-button:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+}
+
+/*
+  Post body placement: directly under the publication date.
+*/
+
+.post-tags {
+  margin-bottom: 1rem;
+}
+
+/*
+  /tags index
+*/
+
+.tag-cloud {
+  padding: 1rem 0;
+}
+.tag-cloud .tag-button {
+  font-size: 1rem;
+  padding: 4px 14px;
+  margin: 4px;
+}
+.tag-count {
+  color: var(--muted);
+}

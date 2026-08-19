@@ -39,8 +39,8 @@
   text-decoration: none;
 }
 .pagination-button {
-  color: #999;
-  border: 1px solid #e0e0e0;
+  color: var(--muted);
+  border: 1px solid var(--pagination-border);
   padding: 15px 45px;
   margin-top: 10px;
   margin-bottom: 10px;
@@ -49,8 +49,8 @@
   font-weight: bold;
 }
 .pagination-active {
-  color: black;
+  color: var(--text);
 }
 .pagination-active:hover {
-  background-color: #e0e0e0;
+  background-color: var(--pagination-hover-bg);
 }

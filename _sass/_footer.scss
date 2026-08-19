@@ -1,20 +1,20 @@
 .footer {
-  background: white;
-  color: $brand-color;
+  background: var(--header-bg);
+  color: var(--brand);
   text-align: center;
   min-height: 56px;
   line-height: 45px;
   width: $container-width;
 }
 .footer a {
-  color: $brand-color;
+  color: var(--brand);
   padding: 0px 10px 0px;
   text-decoration: none;
 }
 @media (max-width: $container-width) {
   .footer {
-    background: white;
-    color: $brand-color;
+    background: var(--header-bg);
+    color: var(--brand);
     text-align: center;
     min-height: 56px;
     line-height: 45px;
@@ -24,6 +24,6 @@
 .footer-description {
   display: block;
   margin-bottom: 1rem;
-  color: #9a9a9a;
+  color: var(--muted);
   font-size:0.8rem;
 }

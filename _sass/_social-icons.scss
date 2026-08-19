@@ -56,7 +56,7 @@
 
 .fa-codepen {
   padding: 5px;
-  @include social-media-icon($codepen-color, $icon-transition-time);
+  @include social-media-icon(var(--brand), $icon-transition-time);
 }
 
 .fa-rss-square {

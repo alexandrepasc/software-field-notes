@@ -1,7 +1,16 @@
 _site
 Gemfile.lock
+Gemfile.local
 .sass-cache
 .jekyll-metadata
 .DS_Store
 .jekyll-cache
 *.gem
+
+# Node / Playwright e2e artifacts
+node_modules
+playwright-report
+test-results
+
+# MCP tooling scratch space (browser profiles, etc.) — never part of the site
+mcpTmp

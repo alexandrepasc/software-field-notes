@@ -1,4 +1,12 @@
 <head>
+  <!-- Set the theme before first paint to avoid a flash of the wrong theme. -->
+  <script>
+    (function () {
+      var t = null;
+      try { t = localStorage.getItem('theme'); } catch (e) {}
+      document.documentElement.setAttribute('data-theme', t === 'light' ? 'light' : 'dark');
+    })();
+  </script>
   <title>
     {% if page.title == "Home" %}
       {{ site.title }} | {{ site.description }}
@@ -8,6 +16,7 @@
   </title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta charset="utf-8">
+  <link rel="icon" type="image/png" href="{{ site.github.url }}/assets/img/favicon.png">
   <link rel="stylesheet" href="{{ site.github.url }}/assets/css/main.css">
   <link rel="stylesheet" href="{{ site.github.url }}/assets/css/syntax.css">
   <!-- Use Atom -->

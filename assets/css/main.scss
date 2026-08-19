@@ -5,8 +5,6 @@ $base-font-family: 'Roboto', sans-serif;
 $body-font-family: 'Roboto', sans-serif;
 $code-font-family: "Source Code Pro", monospace;
 
-$brand-color: black;
-
 $container-width: 1100px;
 $tablet-width: 600px;
 $phone-width: 480px;
@@ -23,7 +21,125 @@ $facebook-color: #3d5b99;
 $google-color: #e64a41;
 $pinterest-color: #bd081c;
 $medium-color: #00AB6C;
-$codepen-color: black;
 $rss-color: #ff6600;
+
+/*
+  Theme tokens.
+
+  Dark is the default (no `data-theme` attribute needed); the light palette
+  is applied via the `data-theme="light"` attribute set by assets/js/theme.js.
+*/
+
+:root {
+  --bg: #121212;
+  --text: #e6e6e6;
+  --brand: #58a6ff;
+  --muted: #8b949e;
+  --border: #30363d;
+  --table-border: #3a3a3a;
+  --code-bg: #1c1f24;
+  --header-bg: #1e1e1e;
+  --header-shadow: rgba(0, 0, 0, 0.4);
+  --dropdown-bg: #262626;
+  --dropdown-hover: #333333;
+  --pagination-border: #333333;
+  --pagination-hover-bg: #2a2a2a;
+
+  /* Syntax tokens (dark) */
+  --syn-comment: #8b949e;
+  --syn-comment-multiline: #8b949e;
+  --syn-comment-preproc: #8b949e;
+  --syn-keyword: #ff7b72;
+  --syn-keyword-type: #ff7b72;
+  --syn-operator: #79c0ff;
+  --syn-operator-word: #79c0ff;
+  --syn-number: #79c0ff;
+  --syn-string: #a5d6ff;
+  --syn-string-other: #a5d6ff;
+  --syn-string-interpol: #ff7b72;
+  --syn-string-regex: #a5d6ff;
+  --syn-string-symbol: #ffa657;
+  --syn-name-attribute: #79c0ff;
+  --syn-name-builtin: #79c0ff;
+  --syn-name-class: #ffa657;
+  --syn-name-constant: #79c0ff;
+  --syn-name-decorator: #d2a8ff;
+  --syn-name-entity: #d2a8ff;
+  --syn-name-exception: #ff7b72;
+  --syn-name-function: #d2a8ff;
+  --syn-name-namespace: #ffa657;
+  --syn-name-tag: #7ee787;
+  --syn-name-variable: #ffa657;
+  --syn-whitespace: #484f58;
+  --syn-error: #f85149;
+  --syn-error-bg: rgba(248, 81, 73, 0.15);
+  --syn-hll-bg: #363a40;
+  --syn-deleted-bg: rgba(248, 81, 73, 0.15);
+  --syn-deleted-border: #f85149;
+  --syn-inserted-bg: rgba(46, 160, 67, 0.15);
+  --syn-inserted-border: #3fb950;
+  --syn-generic-error: #f85149;
+  --syn-generic-heading: #79c0ff;
+  --syn-generic-output: #8b949e;
+  --syn-generic-prompt: #79c0ff;
+  --syn-generic-traceback: #ffa657;
+  --syn-css-operator: #8b949e;
+}
+
+[data-theme="light"] {
+  --bg: #ffffff;
+  --text: #000000;
+  --brand: #000000;
+  --muted: #9a9a9a;
+  --border: #cccccc;
+  --table-border: #000000;
+  --code-bg: #f5f5f5;
+  --header-bg: #ffffff;
+  --header-shadow: #bbbbbb;
+  --dropdown-bg: #f9f9f9;
+  --dropdown-hover: #f1f1f1;
+  --pagination-border: #e0e0e0;
+  --pagination-hover-bg: #e0e0e0;
+
+  /* Syntax tokens (light) */
+  --syn-comment: #999;
+  --syn-comment-multiline: #09f;
+  --syn-comment-preproc: #099;
+  --syn-keyword: #069;
+  --syn-keyword-type: #078;
+  --syn-operator: #555;
+  --syn-operator-word: #000;
+  --syn-number: #f60;
+  --syn-string: #d44950;
+  --syn-string-other: #c30;
+  --syn-string-interpol: #a00;
+  --syn-string-regex: #3aa;
+  --syn-string-symbol: #fc3;
+  --syn-name-attribute: #4f9fcf;
+  --syn-name-builtin: #366;
+  --syn-name-class: #0a8;
+  --syn-name-constant: #360;
+  --syn-name-decorator: #99f;
+  --syn-name-entity: #999;
+  --syn-name-exception: #c00;
+  --syn-name-function: #c0f;
+  --syn-name-namespace: #0cf;
+  --syn-name-tag: #2f6f9f;
+  --syn-name-variable: #033;
+  --syn-whitespace: #bbb;
+  --syn-error: #a00;
+  --syn-error-bg: #faa;
+  --syn-hll-bg: #ffc;
+  --syn-deleted-bg: #fcc;
+  --syn-deleted-border: #c00;
+  --syn-inserted-bg: #cfc;
+  --syn-inserted-border: #0c0;
+  --syn-generic-error: #f00;
+  --syn-generic-heading: #030;
+  --syn-generic-output: #aaa;
+  --syn-generic-prompt: #009;
+  --syn-generic-traceback: #9c6;
+  --syn-css-operator: #999;
+}
 
 @import "-sections-dir";

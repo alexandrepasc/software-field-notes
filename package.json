@@ -1,0 +1,12 @@
+{
+  "name": "software-field-notes-2",
+  "version": "1.0.0",
+  "private": true,
+  "description": "E2E tests for the Software Field Notes Jekyll site",
+  "scripts": {
+    "test": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.49.0"
+  }
+}

@@ -1,0 +1,20 @@
+---
+layout: default
+---
+
+<div class="post-content">
+  <h1>
+    {{ page.title }}
+  </h1>
+  <p class="post-date">
+    {% assign count = site.tags[page.tag].size %}
+    {{ count }} publication{% if count != 1 %}s{% endif %} tagged &ldquo;{{ page.tag }}&rdquo;
+    &middot; <a href="{{ site.github.url }}/tags">All tags</a>
+  </p>
+</div>
+
+{% for post in site.posts %}
+  {% if post.tags contains page.tag %}
+    {% include featured-post.html %}
+  {% endif %}
+{% endfor %}
