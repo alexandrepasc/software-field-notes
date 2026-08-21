@@ -22,9 +22,7 @@ test.describe('Navigation', () => {
 
   test('category pages render the posts in their category', async ({ page }) => {
     const cases = [
-      { path: '/facts', title: 'Interesting Facts', expectedPost: '/about-the-author' },
-      { path: '/resources', title: 'Learning Resources', expectedPost: '/learning-resources' },
-      { path: '/sample-posts', title: 'Sample Posts', expectedPost: '/text-formatting' },
+      { path: '/development', title: 'Development', expectedPost: '/system-updates-qml-plugin' },
     ];
 
     for (const { path, title, expectedPost } of cases) {
@@ -48,7 +46,7 @@ test.describe('Navigation', () => {
   });
 
   test('category pages have no broken internal links', async ({ page, request }) => {
-    for (const path of ['/facts', '/resources', '/sample-posts']) {
+    for (const path of ['/development']) {
       await page.goto(path);
       await expectNoBrokenInternalLinks(page, request);
     }

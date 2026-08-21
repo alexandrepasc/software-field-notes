@@ -39,6 +39,22 @@ test.describe('Feeds and sitemap', () => {
     }
   });
 
+  test('pages advertise both feeds for autodiscovery', async ({ page }) => {
+    for (const path of ['/', ...POST_PATHS]) {
+      await page.goto(path);
+
+      const atom = page.locator('head link[rel="alternate"][type="application/atom+xml"]');
+      await expect(atom).toHaveCount(1);
+      const atomHref = await atom.getAttribute('href');
+      expect(new URL(atomHref, 'http://127.0.0.1:4000').pathname).toBe('/feed.xml');
+
+      const rss = page.locator('head link[rel="alternate"][type="application/rss+xml"]');
+      await expect(rss).toHaveCount(1);
+      const rssHref = await rss.getAttribute('href');
+      expect(new URL(rssHref, 'http://127.0.0.1:4000').pathname).toBe('/rss-feed.xml');
+    }
+  });
+
   test('robots.txt points at the sitemap', async ({ request }) => {
     const response = await request.get('/robots.txt');
     expect(response.status()).toBe(200);

@@ -17,9 +17,13 @@ menu:
   - {name: 'Contact', url: 'contact'}
 
 # Available social icons are powered by Font Awesome, so you can use any icon that they offer
+# Icon values are rendered as class="fa fa-<icon>": use plain FA 4 names (e.g. 'github'), or
+# 'brands <name>' for Font Awesome 6 brand icons loaded via _includes/head.html (e.g.
+# 'brands fa-x-twitter' -> class="fa fa-brands fa-x-twitter"), required for logos missing
+# from FA 4 such as the X rebrand.
 # TODO: update social links with the blog's own accounts
 social:
-# - {icon: 'twitter', link:    'https://twitter.com/paululele'}
+  - {icon: 'brands fa-x-twitter', link: 'https://x.com/alexandrepasc'}
 # - {icon: 'facebook', link:   'https://www.facebook.com/paululele'}
 # - {icon: 'instagram', link:  'https://instagram.com/paululele'}
 # - {icon: 'envelope', link:   'mailto:hello@paulle.ca'}

@@ -19,6 +19,12 @@
   @include social-media-icon($twitter-color, $icon-transition-time);
 }
 
+// The X rebrand glyph comes from the Font Awesome 6 Brands stylesheet.
+.fa-x-twitter {
+  padding: 5px;
+  @include social-media-icon($twitter-color, $icon-transition-time);
+}
+
 .fa-instagram {
   padding: 5px;
   @include social-media-icon($instagram-color, $icon-transition-time);

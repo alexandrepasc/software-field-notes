@@ -4,10 +4,13 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/">
 	<channel>
 		<title>{{ site.title | xml_escape }}</title>
+		<link>{{ "/" | absolute_url | xml_escape }}</link>
 		<description>{% if site.description %}{{ site.description | xml_escape }}{% endif %}</description>
-		<link>{{ site.github.url }}</link>
-		<atom:link href="{{ site.github.url }}/{{ page.path }}" rel="self" type="application/rss+xml" />
-		{% for post in site.posts limit:10 %}
+		<language>{{ site.lang | default: "en-us" }}</language>
+		<lastBuildDate>{{ site.time | date_to_rfc822 }}</lastBuildDate>
+		<generator>Jekyll v{{ jekyll.version }}</generator>
+		<atom:link href="{{ "/rss-feed.xml" | absolute_url }}" rel="self" type="application/rss+xml" />
+		{% for post in site.posts %}
 			<item>
 				<title>{{ post.title | xml_escape }}</title>
 				{% if post.author %}
@@ -19,8 +22,8 @@
 					<description>{{ post.content | xml_escape }}</description>
 				{% endif %}
 				<pubDate>{{ post.date | date_to_rfc822 }}</pubDate>
-				<link>{{ site.url }}{{ post.url }}</link>
-				<guid isPermaLink="true">{{ site.url }}{{ post.url }}</guid>
+				<link>{{ post.url | absolute_url | xml_escape }}</link>
+				<guid isPermaLink="true">{{ post.url | absolute_url | xml_escape }}</guid>
 			</item>
 		{% endfor %}
 	</channel>

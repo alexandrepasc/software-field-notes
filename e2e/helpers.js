@@ -4,13 +4,8 @@
 const { expect } = require('@playwright/test');
 
 // Every post that exists in _posts/ (used by feed/home/category assertions).
-const POST_PATHS = [
-  '/about-the-author',
-  '/learning-resources',
-  '/text-formatting',
-  '/getting-started',
-  '/welcome-to-millennial',
-];
+// Permalinks follow `/:title`, i.e. the slug part of the filename.
+const POST_PATHS = ['/system-updates-qml-plugin'];
 
 // Treat localhost and 127.0.0.1 as the same origin so links to either host
 // (Jekyll emits both depending on how site.github.url resolves) are matched.

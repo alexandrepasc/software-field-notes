@@ -8,6 +8,8 @@ markdown:            kramdown
 highlighter:         rouge
 permalink:           /:title
 exclude:             [docs]
+# Publish posts whose date has not passed yet (scheduled posts must still build)
+future:              true
 plugins:             [jekyll-paginate, jekyll-sitemap, jekyll-feed, jekyll-seo-tag]
 
 # Customise atom feed settings (this is where Jekyll-Feed gets configuration information)
