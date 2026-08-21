@@ -46,12 +46,18 @@ test.describe('Feeds and sitemap', () => {
       const atom = page.locator('head link[rel="alternate"][type="application/atom+xml"]');
       await expect(atom).toHaveCount(1);
       const atomHref = await atom.getAttribute('href');
-      expect(new URL(atomHref, 'http://127.0.0.1:4000').pathname).toBe('/feed.xml');
+      // url/baseurl in _config.yml make autodiscovery links deterministic
+      // absolute production URLs (identical in local builds).
+      expect(atomHref).toBe(
+        'https://alexandrepasc.github.io/software-field-notes/feed.xml'
+      );
 
       const rss = page.locator('head link[rel="alternate"][type="application/rss+xml"]');
       await expect(rss).toHaveCount(1);
       const rssHref = await rss.getAttribute('href');
-      expect(new URL(rssHref, 'http://127.0.0.1:4000').pathname).toBe('/rss-feed.xml');
+      expect(rssHref).toBe(
+        'https://alexandrepasc.github.io/software-field-notes/rss-feed.xml'
+      );
     }
   });
 

@@ -74,7 +74,7 @@ test.describe('Home page', () => {
     await page.goto('/');
 
     const linkedin = page.locator(
-      'footer a[href="https://www.linkedin.com/in/alexandre-pascoal"]'
+      'footer a[href="https://www.linkedin.com/in/alexandre-pascoal-b7199680/"]'
     );
     await expect(linkedin).toHaveCount(1);
     await expect(linkedin).toHaveAttribute('target', '_blank');
@@ -83,7 +83,7 @@ test.describe('Home page', () => {
     expect(linkedinClasses).toMatch(/(^|\s)fa-linkedin(\s|$)/);
 
     const mastodon = page.locator(
-      'footer a[href="https://mastodon.social/@alexandrepasc"]'
+      'footer a[href="https://mastodon.world/@alexandre_pascoal"]'
     );
     await expect(mastodon).toHaveCount(1);
     await expect(mastodon).toHaveAttribute('target', '_blank');
@@ -96,7 +96,7 @@ test.describe('Home page', () => {
     await page.goto('/');
     // daily.dev has no Font Awesome glyph, so settings.yml carries `svg_path`
     // and social-link.html renders it as an inline SVG instead of an <i>.
-    const link = page.locator('footer a[href="https://app.daily.dev/"]');
+    const link = page.locator('footer a[href="https://daily.dev/alexandrepascoal"]');
     await expect(link).toHaveCount(1);
     await expect(link).toHaveAttribute('target', '_blank');
     const svg = link.locator('svg.social-svg.fa-dailydev');

@@ -2,7 +2,7 @@
 
 ## Project
 
-Jekyll static site ("software field notes" blog) built on the **Millennial** theme. Deployed on the `gh-pages` branch to GitHub Pages at `alexandrepasc.github.io/software-field-notes-2`.
+Jekyll static site ("software field notes" blog) built on the **Millennial** theme. Deployed on the `gh-pages` branch to GitHub Pages at `alexandrepasc.github.io/software-field-notes`.
 
 ## Stack
 
@@ -10,15 +10,23 @@ Jekyll static site ("software field notes" blog) built on the **Millennial** the
 - Plugins: `jekyll-paginate`, `jekyll-sitemap`, `jekyll-feed`, `jekyll-seo-tag`
 - Ruby gem `millennial` (see `millennial.gemspec`), managed via `Gemfile`
 - Sass/SCSS partials in `_sass/`, entry point `assets/css/main.scss`
-- Fonts via Google Fonts, icons via Font Awesome 4.6.3, MathJax 2.7.5
+- Fonts via Google Fonts, icons via Font Awesome 6.7.2 (`all.min.css` plus
+  `v4-shims.min.css`, which keep legacy FA 4 names like `fa-sun-o` working), MathJax 2.7.5
 
 ## Commands
 
 ```bash
 bundle install            # install dependencies (uses gemspec)
-bundle exec jekyll serve  # serve at http://localhost:4000, auto-regenerates
+npm run serve             # preview at http://localhost:4000 (same as:
+                          #   bundle exec jekyll serve --baseurl '')
 bundle exec jekyll build  # build _site/ (run this to validate changes)
 ```
+
+The `--baseurl ''` flag matters: `_config.yml` sets `baseurl` to the production
+subpath (`/software-field-notes`), so a plain `bundle exec jekyll serve` mounts
+the site under that prefix while template asset links stay root-relative
+(`site.github.url` is empty locally) — CSS/JS/images then 404 exactly as the
+static server's log shows. Stripping baseurl for previews restores root mounting.
 
 ## Tests
 
@@ -43,6 +51,12 @@ Notes:
   (resolves `/about` → `/about.html`, serves `_site/404.html` with a real 404 status).
 - Tests are offline-friendly: MathJax/CDN is deliberately not asserted.
 - All e2e test files live in `e2e/`; config is `playwright.config.js`.
+- The test webServer builds into a dedicated `_site-test/` destination and runs
+  on port **4173**, so `npm test` can run while a local preview (`npm run
+  serve`, port 4000) stays up — no shared output, no port clash. Never point
+  tests at a live `jekyll serve`: it injects `http://localhost:<port>` into
+  every generated `absolute_url` (feeds, share links), which corrupts URL
+  assertions.
 
 ## Structure
 
@@ -51,7 +65,7 @@ Notes:
 - `_data/settings.yml` — site settings: menu, social links, Disqus, pagination labels
 - `_config.yml` — build settings, site title/description/author
 - `_layouts/` — `default`, `home`, `post`, `page`, `category`
-- `_includes/` — `head`, `header`, `footer`, `featured-post`, `post-date`, `post-share`, `related-posts`, `disqus`, `google-analytics`
+- `_includes/` — `head`, `header`, `footer`, `featured-post`, `post-date`, `post-share`, `social-link`, `related-posts`, `disqus`, `google-analytics`
 - `_sass/` — SCSS partials (partial names start with `_`)
 - `assets/img/` — post featured images; `assets/css/` — `main.scss`, `syntax.css`
 
@@ -100,7 +114,17 @@ source. Tag names are normalized with Jekyll's `slugify` (lowercase, spaces/symb
 
 ## Configuration notes
 
-- `_config.yml` `title`, `description`, `author` and `_data/settings.yml` `menu`/`social` are still the stock Millennial values — personalize them for this blog.
-- Links in templates use `{{ site.github.url }}` (Jekyll GitHub metadata). The site has no `baseurl` set; for a project-page deployment under `/software-field-notes-2/`, verify the GitHub metadata plugin resolves `site.github.url` or set `url`/`baseurl` in `_config.yml`.
+- `_config.yml` sets the canonical GitHub Pages address: `url` =
+  `https://alexandrepasc.github.io`, `baseurl` = `/software-field-notes`. This makes
+  feeds, sitemap, seo-tag and every `absolute_url` deterministic and production-correct
+  even in local builds — do not remove it, and keep it in sync with the real deployment path.
+- Nav/footer link prefixes use `{{ site.github.url }}` (Jekyll GitHub metadata); locally it
+  is empty so those links stay root-relative, which `scripts/serve.js` expects. Share
+  intents and feed URLs use `absolute_url` instead and come out fully qualified.
+- Social icon conventions are documented at the top of `_data/settings.yml`: values render
+  as `class="fa fa-<icon>"`; use `'brands <name>'` for Font Awesome 6 brand glyphs, or
+  `svg_path` (+ optional ink-cropping `view_box`) for brands missing from Font Awesome —
+  rendered as inline SVG by `_includes/social-link.html`. The post share bar
+  (`_includes/post-share.html`) mirrors the social list order.
 - `google-ID` in `_data/settings.yml` is intentionally commented out (no analytics).
 - Disqus is disabled (`disqus.comments: false`).

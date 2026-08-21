@@ -9,7 +9,7 @@ const TAGS = ['dms', 'linux', 'qml', 'quickshell'];
 const TAG_PAGE_PATHS = TAGS.map((tag) => `/tags/${tag}`);
 
 function pathsOf(anchors) {
-  return anchors.map((href) => new URL(href, 'http://127.0.0.1:4000').pathname);
+  return anchors.map((href) => new URL(href, 'http://127.0.0.1:4173').pathname);
 }
 
 test.describe('Tags', () => {

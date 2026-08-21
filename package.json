@@ -4,6 +4,7 @@
   "private": true,
   "description": "E2E tests for the Software Field Notes Jekyll site",
   "scripts": {
+    "serve": "bundle exec jekyll serve --baseurl ''",
     "test": "playwright test"
   },
   "devDependencies": {

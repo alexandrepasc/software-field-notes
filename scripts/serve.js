@@ -8,7 +8,7 @@
  *   - /                 -> _site/index.html
  *   - unknown route    -> _site/404.html with HTTP 404 status
  *
- * Usage: node scripts/serve.js [port]   (default port: 4000)
+ * Usage: node scripts/serve.js [port] [site-dir]   (defaults: 4000, _site)
  */
 'use strict';
 
@@ -16,8 +16,9 @@ const http = require('node:http');
 const fs = require('node:fs');
 const path = require('node:path');
 
-const ROOT = path.resolve(__dirname, '..', '_site');
+const ROOT = path.resolve(__dirname, '..', process.argv[3] || DEFAULT_SITE_DIR);
 const DEFAULT_PORT = 4000;
+const DEFAULT_SITE_DIR = '_site';
 
 const MIME_TYPES = {
   '.html': 'text/html; charset=utf-8',

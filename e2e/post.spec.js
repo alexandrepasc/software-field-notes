@@ -34,11 +34,62 @@ test.describe('Post pages', () => {
   test('renders share buttons that open external targets', async ({ page }) => {
     await page.goto(POST_PATH);
     const shares = page.locator('.post-share .sharing-icons a');
-    await expect(shares).toHaveCount(2);
+    await expect(shares).toHaveCount(5);
     const targets = await shares.evaluateAll((anchors) =>
       anchors.map((a) => a.getAttribute('target'))
     );
-    expect(targets).toEqual(['_blank', '_blank']);
+    expect(targets).toEqual(['_blank', '_blank', '_blank', '_blank', '_blank']);
+
+    // Icon order mirrors the social list in _data/settings.yml
+    // (X, Mastodon, LinkedIn, daily.dev); Facebook is share-only.
+    const networks = await shares.evaluateAll((anchors) =>
+      anchors.map((a) => {
+        const p = [
+          'https://x.com/intent/tweet',
+          'https://www.facebook.com/sharer',
+          'https://mastodon.social/share',
+          'https://www.linkedin.com/sharing/share-offsite/',
+          'https://app.daily.dev/suggest',
+        ];
+        return p.find((prefix) => a.getAttribute('href').startsWith(prefix));
+      })
+    );
+    expect(networks).toEqual([
+      'https://x.com/intent/tweet',
+      'https://mastodon.social/share',
+      'https://www.linkedin.com/sharing/share-offsite/',
+      'https://app.daily.dev/suggest',
+      'https://www.facebook.com/sharer',
+    ]);
+
+    // X replaced the legacy twitter.com intent; brand glyphs come from FA 6.
+    const x = page.locator(
+      '.post-share .sharing-icons a[href^="https://x.com/intent/tweet?"]'
+    );
+    await expect(x).toHaveCount(1);
+    const xClasses = await x.locator('i').getAttribute('class');
+    expect(xClasses).toContain('fa-brands');
+    expect(xClasses).toMatch(/(^|\s)fa-x-twitter(\s|$)/);
+
+    await expect(
+      page.locator('.post-share .sharing-icons a[href^="https://www.facebook.com/sharer/sharer.php?"]')
+    ).toHaveCount(1);
+    await expect(
+      page.locator('.post-share .sharing-icons a[href^="https://www.linkedin.com/sharing/share-offsite/"]')
+    ).toHaveCount(1);
+    await expect(
+      page.locator('.post-share .sharing-icons a[href^="https://mastodon.social/share?text="]')
+    ).toHaveCount(1);
+
+    // daily.dev has no share-intent API: the button opens their source
+    // suggestion form and renders the inline-SVG brand mark.
+    const dailydev = page.locator(
+      '.post-share .sharing-icons a[href="https://app.daily.dev/suggest"]'
+    );
+    await expect(dailydev).toHaveCount(1);
+    const svg = dailydev.locator('svg.social-svg.fa-dailydev');
+    await expect(svg).toHaveCount(1);
+    expect(await svg.getAttribute('viewBox')).toBe('0 5.2945 24 13.411');
   });
 
   test('related-posts section stays empty while only one post exists', async ({ page }) => {

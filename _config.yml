@@ -8,6 +8,11 @@ markdown:            kramdown
 highlighter:         rouge
 permalink:           /:title
 exclude:             [docs]
+# Canonical GitHub Pages project-page address. Required for valid feed,
+# sitemap and seo-tag output; makes share intents carry the real post URL
+# and keeps local builds byte-identical to production for absolute links.
+url:                 "https://alexandrepasc.github.io"
+baseurl:             "/software-field-notes"
 # Publish posts whose date has not passed yet (scheduled posts must still build)
 future:              true
 plugins:             [jekyll-paginate, jekyll-sitemap, jekyll-feed, jekyll-seo-tag]
