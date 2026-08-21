@@ -57,6 +57,16 @@
   padding: 5px 10px;
 }
 
+/* Social icons sit closer together than text menu entries: the shared
+   .menu-link padding plus the inline whitespace between anchors adds up to
+   a 24px gap between glyphs. Tighten the anchor padding on the icon rows
+   only (desktop nav + footer); the mobile dropdown keeps its own layout. */
+nav.menu-list a.social-link,
+.footer a.social-link {
+  padding-left: 2px;
+  padding-right: 2px;
+}
+
 /*
   Responsiveness with a dropdown menu
 */

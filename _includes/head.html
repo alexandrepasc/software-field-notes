@@ -24,10 +24,12 @@
   <!-- RSS 2.0 (autodiscovery) -->
   <link rel="alternate" type="application/rss+xml" title="{{ site.title }} (RSS)" href="{{ "/rss-feed.xml" | absolute_url }}">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Source+Code+Pro">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
-  <!-- Font Awesome 6 Brands only: required for icons missing from FA 4 (X logo).
-       Must stay AFTER the FA 4 sheet so its font-family wins on shared classes. -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/brands.min.css">
+  <!-- Font Awesome 6: full icon set plus the v4 name-compatibility shims
+       (theme icons fa-sun-o/fa-moon-o and bare brand names like fa-twitter).
+       Shims must stay AFTER all.css. Replaces the old FA 4.6.3 stylesheet and
+       the brands-only add-on used before the upgrade. -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/v4-shims.min.css">
   <script type="text/javascript" async
     src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
   </script>

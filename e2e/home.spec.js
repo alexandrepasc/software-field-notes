@@ -67,4 +67,43 @@ test.describe('Home page', () => {
     expect(iconClasses).toContain('fa-brands');
     expect(iconClasses).toMatch(/(^|\s)fa-x-twitter(\s|$)/);
   });
+
+  test('footer links Mastodon and LinkedIn with Font Awesome 6 brand icons', async ({
+    page,
+  }) => {
+    await page.goto('/');
+
+    const linkedin = page.locator(
+      'footer a[href="https://www.linkedin.com/in/alexandre-pascoal"]'
+    );
+    await expect(linkedin).toHaveCount(1);
+    await expect(linkedin).toHaveAttribute('target', '_blank');
+    const linkedinClasses = await linkedin.locator('i').getAttribute('class');
+    expect(linkedinClasses).toContain('fa-brands');
+    expect(linkedinClasses).toMatch(/(^|\s)fa-linkedin(\s|$)/);
+
+    const mastodon = page.locator(
+      'footer a[href="https://mastodon.social/@alexandrepasc"]'
+    );
+    await expect(mastodon).toHaveCount(1);
+    await expect(mastodon).toHaveAttribute('target', '_blank');
+    const mastodonClasses = await mastodon.locator('i').getAttribute('class');
+    expect(mastodonClasses).toContain('fa-brands');
+    expect(mastodonClasses).toMatch(/(^|\s)fa-mastodon(\s|$)/);
+  });
+
+  test('footer renders daily.dev as an inline SVG brand mark', async ({ page }) => {
+    await page.goto('/');
+    // daily.dev has no Font Awesome glyph, so settings.yml carries `svg_path`
+    // and social-link.html renders it as an inline SVG instead of an <i>.
+    const link = page.locator('footer a[href="https://app.daily.dev/"]');
+    await expect(link).toHaveCount(1);
+    await expect(link).toHaveAttribute('target', '_blank');
+    const svg = link.locator('svg.social-svg.fa-dailydev');
+    await expect(svg).toHaveCount(1);
+    // viewBox is cropped to the path's ink bounds so CSS baseline alignment
+    // seats the mark exactly like the font glyph siblings.
+    expect(await svg.getAttribute('viewBox')).toBe('0 5.2945 24 13.411');
+    expect(await svg.locator('path').getAttribute('d')).toMatch(/^M18\.29 /);
+  });
 });

@@ -21,14 +21,23 @@ menu:
 # 'brands <name>' for Font Awesome 6 brand icons loaded via _includes/head.html (e.g.
 # 'brands fa-x-twitter' -> class="fa fa-brands fa-x-twitter"), required for logos missing
 # from FA 4 such as the X rebrand.
+# Brands absent from Font Awesome entirely can set `svg_path` instead: the include then
+# renders an inline SVG from that path (Simple Icons convention, viewBox 0 0 24 24),
+# e.g. daily.dev -> icon 'dailydev'. Set `view_box` too when the path's ink does not
+# fill the canvas (daily.dev spans y 5.29..18.71): cropping to the ink lets the CSS
+# baseline-align the mark exactly like the font glyphs.
 # TODO: update social links with the blog's own accounts
 social:
   - {icon: 'brands fa-x-twitter', link: 'https://x.com/alexandrepasc'}
+  - {icon: 'brands fa-mastodon', link: 'https://mastodon.social/@alexandrepasc'}
+  - {icon: 'brands fa-linkedin', link: 'https://www.linkedin.com/in/alexandre-pascoal'}
+  - {icon: 'dailydev', link: 'https://app.daily.dev/', view_box: '0 5.2945 24 13.411', svg_path: 'M18.29 5.706a1.405 1.405 0 0 0-1.987 0L4.716 17.296l1.324-2.65-2.65-2.649 3.312-3.311 2.65 2.65 1.986-1.988-3.642-3.642a1.405 1.405 0 0 0-1.987 0L.411 11.004a1.404 1.404 0 0 0 0 1.987l4.305 4.304.993.993a1.405 1.405 0 0 0 1.987 0L19.285 6.7l-.993-.994Zm-.332 3.647 2.65 2.65-4.306 4.305a1.404 1.404 0 1 0 1.986 1.986l5.299-5.298a1.404 1.404 0 0 0 0-1.987l-4.305-4.304-1.324 2.648Z'}
 # - {icon: 'facebook', link:   'https://www.facebook.com/paululele'}
 # - {icon: 'instagram', link:  'https://instagram.com/paululele'}
 # - {icon: 'envelope', link:   'mailto:hello@paulle.ca'}
 # - {icon: 'rss-square', link: 'feed.xml'}
-# - {icon: 'rss-square', link: 'rss-feed.xml'}
+  # Root-relative href: bare 'rss-feed.xml' would resolve under /tags/... on nested pages.
+  - {icon: 'rss-square', link: '/rss-feed.xml'}
 
 # Customize site text
 pagination:

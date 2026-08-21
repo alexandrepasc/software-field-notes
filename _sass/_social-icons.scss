@@ -69,3 +69,30 @@
   padding: 5px;
   @include social-media-icon($rss-color, $icon-transition-time);
 }
+
+// The Mastodon glyph comes from the Font Awesome 6 Brands stylesheet.
+.fa-mastodon {
+  padding: 5px;
+  @include social-media-icon($mastodon-color, $icon-transition-time);
+}
+
+// daily.dev is not a Font Awesome brand: _includes/social-link.html renders
+// it as an inline SVG from `svg_path` data, cropped to its ink via `view_box`.
+// No padding: the cropped ink must touch the box bottom so the inline-block
+// baseline alignment seats it exactly where the font glyphs sit. Hover uses
+// the official brand purple (Simple Icons data).
+.fa-dailydev {
+  padding: 0;
+  @include social-media-icon($dailydev-color, $icon-transition-time);
+}
+
+// Inline-SVG social icons must match their font glyph siblings: measured
+// sibling ink heights are ~0.80-0.88em sitting on the text baseline
+// (fa-x-twitter 0.78em .. fa-linkedin 0.87em), so the cropped mark renders
+// at 0.8em with its box bottom on the baseline (inline-block default).
+.social-svg {
+  display: inline-block;
+  height: 0.8em;
+  width: auto;
+  fill: currentColor;
+}

@@ -1,0 +1,20 @@
+{% comment %}
+  Renders one social icon anchor for an `item` from _data/settings.yml social.
+
+  External links (https://, mailto:, tel:) pass through untouched; anything
+  else is prefixed with site.github.url so relative entries such as
+  '/rss-feed.xml' keep working when the site is served under a project-page
+  subpath (e.g. /software-field-notes-2/). Data files cannot hold Liquid,
+  hence the resolution happens here.
+
+  Items with an `svg_path` render that path as an inline SVG (Simple Icons
+  convention, viewBox 0 0 24 24 unless the item sets `view_box`) for brands
+  missing from Font Awesome, e.g. daily.dev. All other items render a
+  Font Awesome glyph.
+{% endcomment %}
+{% assign social_href = item.link %}
+{% unless social_href contains '://' or social_href contains 'mailto:' or social_href contains 'tel:' or social_href == '#' or social_href == blank %}
+  {% assign social_href = site.github.url | append: social_href %}
+{% endunless %}
+{% assign svg_viewbox = item.view_box | default: '0 0 24 24' %}
+<a href="{{ social_href }}" class="menu-link social-link" target="_blank">{% if item.svg_path %}<svg class="social-svg fa-{{ item.icon }}" role="img" viewBox="{{ svg_viewbox }}" aria-hidden="true"><path d="{{ item.svg_path }}"/></svg>{% else %}<i class="fa fa-{{ item.icon }}" aria-hidden="true"></i>{% endif %}</a>
