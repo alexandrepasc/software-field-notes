@@ -13,7 +13,7 @@ test.describe('Post pages', () => {
       'Quickshell System Updates Plugin'
     );
     await expect(page.locator('.post-content > .post-date')).toContainText(
-      'Written on August 22nd, 2026 by Alexandre Pascoal'
+      'Written on August 23rd, 2026 by Alexandre Pascoal'
     );
   });
 
@@ -21,12 +21,14 @@ test.describe('Post pages', () => {
     await page.goto(POST_PATH);
 
     // The post sets `image:` front matter, so the theme renders a featured
-    // block above the article; its image must resolve.
+    // block above the article; its image must resolve. D1: the alt falls
+    // back to the post title — it must never be empty.
     const featured = page.locator('.featured-image img');
     await expect(featured).toHaveCount(1);
     const featuredSrc = await featured.getAttribute('src');
     const featuredResponse = await request.get(featuredSrc);
     expect(featuredResponse.status(), `${featuredSrc} should load`).toBe(200);
+    await expect(featured).toHaveAttribute('alt', 'Quickshell System Updates Plugin');
 
     // Images embedded in the markdown body must resolve too.
     const img = page.locator('.post-content article img').first();

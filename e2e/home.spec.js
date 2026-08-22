@@ -45,6 +45,17 @@ test.describe('Home page', () => {
       const response = await request.get(url);
       expect(response.status(), `${url} should load`).toBe(200);
     }
+
+    // The card forces the whole image into its own box: 100% 100% shows the
+    // picture completely (cover would crop ~44% of a 3:2 hero) without
+    // letterboxing (contain).
+    const sizes = await cards.evaluateAll((cards) =>
+      cards.map((card) => getComputedStyle(card).backgroundSize)
+    );
+    expect(sizes).toHaveLength(POST_PATHS.length);
+    for (const size of sizes) {
+      expect(size).toBe('100% 100%');
+    }
   });
 
   test('has no broken internal links', async ({ page, request }) => {
@@ -94,6 +105,20 @@ test.describe('Home page', () => {
     const mastodonClasses = await mastodon.locator('i').getAttribute('class');
     expect(mastodonClasses).toContain('fa-brands');
     expect(mastodonClasses).toMatch(/(^|\s)fa-mastodon(\s|$)/);
+  });
+
+  test('footer credits Jekyll and the Millennial theme', async ({ page }) => {
+    await page.goto('/');
+    // A2: dedicated muted credits line under the site description.
+    const credits = page.locator('.footer-credits');
+    await expect(credits).toContainText('Powered by');
+    await expect(credits).toContainText('Theme:');
+    const jekyll = credits.locator('a[href="https://jekyllrb.com/"]');
+    await expect(jekyll).toHaveCount(1);
+    await expect(jekyll).toHaveAttribute('rel', 'noopener');
+    const millennial = credits.locator('a[href="https://github.com/LeNPaul/Millennial"]');
+    await expect(millennial).toHaveCount(1);
+    await expect(millennial).toHaveAttribute('target', '_blank');
   });
 
   test('footer renders daily.dev as an inline SVG brand mark', async ({ page }) => {

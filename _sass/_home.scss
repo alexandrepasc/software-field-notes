@@ -3,7 +3,10 @@
   margin: 5px 10px 10px;
   background-position: center;
   background-repeat: no-repeat;
-  background-size: cover;
+  /* Force the whole image into the card's own box (no cropping like
+     cover, no letterboxing like contain): the picture always shows
+     completely and covers every pixel of the component. */
+  background-size: 100% 100%;
   position: relative;
 }
 .featured-post h2 {
