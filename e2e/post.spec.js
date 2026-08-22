@@ -17,13 +17,18 @@ test.describe('Post pages', () => {
     );
   });
 
-  test('renders inline content images and no featured-image block', async ({ page, request }) => {
+  test('renders the featured image and inline content images', async ({ page, request }) => {
     await page.goto(POST_PATH);
 
-    // The post sets no `image:` front matter, so there must be no featured block…
-    await expect(page.locator('.featured-image')).toHaveCount(0);
+    // The post sets `image:` front matter, so the theme renders a featured
+    // block above the article; its image must resolve.
+    const featured = page.locator('.featured-image img');
+    await expect(featured).toHaveCount(1);
+    const featuredSrc = await featured.getAttribute('src');
+    const featuredResponse = await request.get(featuredSrc);
+    expect(featuredResponse.status(), `${featuredSrc} should load`).toBe(200);
 
-    // …but images embedded in the markdown body still have to resolve.
+    // Images embedded in the markdown body must resolve too.
     const img = page.locator('.post-content article img').first();
     await expect(img).toBeVisible();
     const src = await img.getAttribute('src');
@@ -49,7 +54,7 @@ test.describe('Post pages', () => {
           'https://www.facebook.com/sharer',
           'https://share.joinmastodon.org/',
           'https://www.linkedin.com/sharing/share-offsite/',
-          'https://app.daily.dev/suggest',
+          'https://daily.dev/',
         ];
         return p.find((prefix) => a.getAttribute('href').startsWith(prefix));
       })
@@ -58,7 +63,7 @@ test.describe('Post pages', () => {
       'https://x.com/intent/tweet',
       'https://share.joinmastodon.org/',
       'https://www.linkedin.com/sharing/share-offsite/',
-      'https://app.daily.dev/suggest',
+      'https://daily.dev/',
       'https://www.facebook.com/sharer',
     ]);
 
@@ -94,12 +99,16 @@ test.describe('Post pages', () => {
         'https://alexandrepasc.github.io/software-field-notes/system-updates-qml-plugin'
     );
 
-    // daily.dev has no share-intent API: the button opens their source
-    // suggestion form and renders the inline-SVG brand mark.
+    // daily.dev has no share-intent API: the button uses their documented
+    // "prepend daily.dev/" shortcut, which lands on their Squad composer with
+    // the canonical post URL prefilled, and renders the inline-SVG brand mark.
     const dailydev = page.locator(
-      '.post-share .sharing-icons a[href="https://app.daily.dev/suggest"]'
+      '.post-share .sharing-icons a[href^="https://daily.dev/https://"]'
     );
     await expect(dailydev).toHaveCount(1);
+    expect(await dailydev.getAttribute('href')).toBe(
+      'https://daily.dev/https://alexandrepasc.github.io/software-field-notes/system-updates-qml-plugin'
+    );
     const svg = dailydev.locator('svg.social-svg.fa-dailydev');
     await expect(svg).toHaveCount(1);
     expect(await svg.getAttribute('viewBox')).toBe('0 5.2945 24 13.411');

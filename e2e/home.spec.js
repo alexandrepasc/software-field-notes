@@ -20,7 +20,7 @@ test.describe('Home page', () => {
     expect([...paths].sort()).toEqual([...POST_PATHS].sort());
   });
 
-  test('featured cards without a front-matter image render plain backgrounds', async ({
+  test('featured cards carry their front-matter image as a loading background', async ({
     page,
     request,
   }) => {
@@ -29,9 +29,10 @@ test.describe('Home page', () => {
     await expect(cards.first()).toBeVisible();
     await expect(cards.first()).toContainText('Quickshell System Updates Plugin');
 
-    // No post currently sets an `image:` front matter, so no card may carry a
-    // background image. When a post adds one, extend this to assert each URL
-    // loads with a 200 (the old "featured background images all load" test did).
+    // Every post currently sets an `image:` front matter, so every card must
+    // carry a background image — and each URL has to actually resolve.
+    // (If a future post ships without one, split this into per-card checks:
+    // image posts carry url(...), image-less ones stay plain.)
     const urls = await cards.evaluateAll((cards) =>
       cards
         .map((card) => card.getAttribute('style') || '')
@@ -39,8 +40,11 @@ test.describe('Home page', () => {
         .map((style) => style.match(/url\(['"]?(.*?)['"]?\)/)?.[1])
         .filter(Boolean)
     );
-    expect(urls).toEqual([]);
-    expect(request); // keep the request fixture available for the extension above
+    expect(urls).toHaveLength(POST_PATHS.length);
+    for (const url of urls) {
+      const response = await request.get(url);
+      expect(response.status(), `${url} should load`).toBe(200);
+    }
   });
 
   test('has no broken internal links', async ({ page, request }) => {

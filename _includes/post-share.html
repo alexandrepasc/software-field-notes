@@ -8,7 +8,10 @@
          Mastodon has no single share domain, so we link to the official
          widget (share.joinmastodon.org). The #text= fragment never reaches
          a server; the widget asks the visitor for their instance and then
-         opens <instance>/share with "title\n\nurl" prefilled. -->
+         opens <instance>/share with "title\n\nurl" prefilled.
+         daily.dev has no share-intent API; prepending daily.dev/ to the
+         post URL (their documented shortcut) lands on their Squad composer
+         with the link prefilled (login required). -->
     <a
       href="https://x.com/intent/tweet?text={{ page.title | url_encode }}&amp;url={{ page.url | absolute_url | url_encode }}"
       target="_blank"
@@ -24,7 +27,7 @@
       target="_blank"
       ><i class="fa fa-brands fa-linkedin" aria-hidden="true"></i
     ></a>
-    <a href="https://app.daily.dev/suggest" target="_blank"
+    <a href="https://daily.dev/{{ page.url | absolute_url }}" target="_blank"
       ><svg
         class="social-svg fa-dailydev"
         role="img"
