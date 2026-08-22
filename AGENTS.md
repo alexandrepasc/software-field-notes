@@ -80,7 +80,7 @@ title: "Post Title"
 author: "Author Name"
 categories: [documentation, facts, resources, sample]  # pick existing category
 tags: [tag1, tag2]
-image: image-file.jpg  # optional, must exist in assets/img/
+image: image-file.jpg  # optional, must exist in assets/img/; export at ~2.7:1 (e.g. 2160x800) so the home list card doesn't over-crop (see docs/creating-posts.md)
 ---
 ```
 

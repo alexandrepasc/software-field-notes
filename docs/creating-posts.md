@@ -38,7 +38,7 @@ image: image-file.jpg   # optional, must exist in assets/img/
 | `author` | Yes | Author name |
 | `categories` | Yes | One or more categories. Each category must have a matching page in `pages/` (e.g. `pages/documentation.md`). See [Available categories](#available-categories) below |
 | `tags` | Yes | Free-form tags, shown as buttons on the post. After adding new tags, run the tag generation script (step 4) |
-| `image` | No | Featured image filename. Must exist in `assets/img/`. Displayed on the home page and post header |
+| `image` | No | Featured image filename. Must exist in `assets/img/`. Displayed on the home page and post header. See [Featured image size](#featured-image-size) |
 
 ## 3. Write the content
 
@@ -66,6 +66,23 @@ Place image files in `assets/img/` and reference them in your post body.
 ```
 
 This is separate from the `image:` front matter field, which controls only the featured/hero image at the top of the post.
+
+### Featured image size
+
+The `image:` front matter appears in two places:
+
+- **Posts list card** (home page): fills a box of ~1080 × 400 px and is **center-cropped** (`cover`) — anything outside the box is trimmed evenly from top/bottom (or sides on narrow screens)
+- **Post header hero**
+
+| | |
+|---|---|
+| Recommended export | **2160 × 800 px** (≈2.7:1, retina-crisp at the card's width) |
+| Minimum | 1080 × 400 px (exact 1× fit) |
+| Format | JPEG, quality ≈80 (keeps heroes ~150–250 KB) |
+
+Images whose ratio differs from ~2.7:1 get their edges cropped away in the list card — e.g. a classic 3:2 screenshot loses ~44% of its height. Keep titles/UI elements near the vertical middle, or export at the target ratio.
+
+Convention: store files in a per-post folder `assets/img/<your-post-slug>/`.
 
 ## 4. Generate tag pages
 

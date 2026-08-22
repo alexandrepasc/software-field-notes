@@ -46,15 +46,16 @@ test.describe('Home page', () => {
       expect(response.status(), `${url} should load`).toBe(200);
     }
 
-    // The card forces the whole image into its own box: 100% 100% shows the
-    // picture completely (cover would crop ~44% of a 3:2 hero) without
-    // letterboxing (contain).
+    // Cards center-crop their hero: background-size cover with center
+    // position keeps the box filled at every viewport width. Images far
+    // from the ~2.7:1 desktop box ratio lose top/bottom edges — heroes
+    // should be exported near that ratio (e.g. 2160x800) to minimize it.
     const sizes = await cards.evaluateAll((cards) =>
       cards.map((card) => getComputedStyle(card).backgroundSize)
     );
     expect(sizes).toHaveLength(POST_PATHS.length);
     for (const size of sizes) {
-      expect(size).toBe('100% 100%');
+      expect(size).toBe('cover');
     }
   });
 
