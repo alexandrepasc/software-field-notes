@@ -28,7 +28,6 @@ giscus:
 menu:
   # - {name: 'Development', url: 'development'}
   - {name: 'About', url: 'about'}
-  - {name: 'Contact', url: 'contact'}
 
 # Available social icons are powered by Font Awesome, so you can use any icon that they offer
 # Icon values are rendered as class="fa fa-<icon>": use plain FA 4 names (e.g. 'github'), or

@@ -13,11 +13,16 @@ test.describe('Navigation', () => {
     await about.click();
     await expect(page).toHaveURL(/\/about$/);
     await expect(page.locator('.page-content h1')).toContainText('About');
+  });
 
-    const contact = page.locator('header .menu-list a', { hasText: 'Contact' });
-    await contact.click();
-    await expect(page).toHaveURL(/\/contact$/);
-    await expect(page.locator('.page-content h1')).toContainText('Contact');
+  test('the header menu offers no Contact button', async ({ page }) => {
+    await page.goto('/');
+    // Contact was removed from the topbar (_data/settings.yml -> menu);
+    // pages/contact.md still exists for direct links, it is just not
+    // offered in the navigation.
+    await expect(
+      page.locator('header .menu-list a', { hasText: 'Contact' })
+    ).toHaveCount(0);
   });
 
   test('category pages render the posts in their category', async ({ page }) => {

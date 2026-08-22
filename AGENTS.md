@@ -62,10 +62,10 @@ Notes:
 
 - `_posts/` — blog posts, named `YYYY-MM-DD-title.md`
 - `pages/` — static pages and category pages (front matter sets `permalink`)
-- `_data/settings.yml` — site settings: menu, social links, Disqus, pagination labels
+- `_data/settings.yml` — site settings: menu, social links, Disqus/giscus comments, pagination labels
 - `_config.yml` — build settings, site title/description/author
 - `_layouts/` — `default`, `home`, `post`, `page`, `category`
-- `_includes/` — `head`, `header`, `footer`, `featured-post`, `post-date`, `post-share`, `social-link`, `related-posts`, `disqus`, `google-analytics`
+- `_includes/` — `head`, `header`, `footer`, `featured-post`, `post-date`, `post-share`, `social-link`, `related-posts`, `disqus`, `giscus`, `google-analytics`
 - `_sass/` — SCSS partials (partial names start with `_`)
 - `assets/img/` — post featured images; `assets/css/` — `main.scss`, `syntax.css`
 
@@ -127,4 +127,6 @@ source. Tag names are normalized with Jekyll's `slugify` (lowercase, spaces/symb
   rendered as inline SVG by `_includes/social-link.html`. The post share bar
   (`_includes/post-share.html`) mirrors the social list order.
 - `google-ID` in `_data/settings.yml` is intentionally commented out (no analytics).
-- Disqus is disabled (`disqus.comments: false`).
+- Disqus is disabled (`disqus.comments: false`); comments run via giscus on
+  GitHub Discussions instead — see `docs/comments.md` for configuration,
+  prerequisites and the `.giscus` class/name-match gotchas.
