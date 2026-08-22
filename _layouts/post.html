@@ -27,4 +27,7 @@ layout: default
   {% if site.data.settings.disqus.comments %}
     {% include disqus.html %}
   {% endif %}
+  {% if site.data.settings.giscus.enabled %}
+    {% include giscus.html %}
+  {% endif %}
 </div>

@@ -121,6 +121,24 @@ test.describe('Post pages', () => {
     await expect(page.locator('.related-posts li')).toHaveCount(0);
   });
 
+  test('renders the giscus comments embed with the configured repository', async ({ page }) => {
+    await page.goto(POST_PATH);
+    // Disqus stays off; comments come from giscus (_data/settings.yml ->
+    // giscus.enabled). Offline-friendly: only the embed markup is asserted,
+    // never the CDN script's execution. The attribute values pin the config
+    // against accidental edits, since a category name/ID mismatch makes
+    // giscus silently show no threads.
+    await expect(page.locator('.disqus')).toHaveCount(0);
+    const section = page.locator('section.comments.post-comments');
+    await expect(section).toHaveCount(1);
+    const embed = section.locator('script[src="https://giscus.app/client.js"]');
+    await expect(embed).toHaveCount(1);
+    await expect(embed).toHaveAttribute('data-repo', 'alexandrepasc/software-field-notes');
+    await expect(embed).toHaveAttribute('data-repo-id', 'R_kgDOT9_Ltw');
+    await expect(embed).toHaveAttribute('data-category', 'Blog comments');
+    await expect(embed).toHaveAttribute('data-category-id', 'DIC_kwDOT9_Lt84DD9hJ');
+  });
+
   test('has no broken internal links', async ({ page, request }) => {
     await page.goto(POST_PATH);
     await expectNoBrokenInternalLinks(page, request);

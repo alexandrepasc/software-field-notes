@@ -3,6 +3,20 @@ disqus:
   comments: false
   disqus_shortname: 'millennial-3'
 
+# Comments powered by GitHub Discussions via giscus (https://giscus.app).
+# Prerequisites: Discussions enabled on the repo, the giscus app
+# (https://github.com/apps/giscus) installed on it, and a thread category
+# (Announcements type recommended: only maintainers open discussions).
+# repo_id is the public API node_id; category_id is shown by the generator
+# at https://giscus.app once you pick the repository and category there.
+# Flip 'enabled' to true once both IDs below are real.
+giscus:
+  enabled: true
+  repo: 'alexandrepasc/software-field-notes'
+  repo_id: 'R_kgDOT9_Ltw'
+  category: 'Blog comments'
+  category_id: 'DIC_kwDOT9_Lt84DD9hJ'
+
 # If you are not using Google Analytics, please change 'google-ID' to an empty string
 # google-ID: 'UA-112060364-2'
 

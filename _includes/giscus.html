@@ -1,0 +1,35 @@
+{% comment %}
+  Comments powered by GitHub Discussions via giscus (https://giscus.app).
+  Configured in _data/settings.yml and gated from _layouts/post.html the
+  same way as disqus.html. Requires Discussions enabled on the repository,
+  the giscus app installed (https://github.com/apps/giscus) and a matching
+  discussion category.
+
+  theme='preferred_color_scheme' follows the site's dark/light toggle;
+  mapping='pathname' ties exactly one Discussion to each post URL, so
+  permalinks must stay stable.
+
+  NOTE: do not add a 'giscus' class here (or anywhere else) — giscus's
+  client.js treats any existing .giscus element as its mount container and
+  deletes its children (including this script tag) before injecting the
+  comment iframe.
+{% endcomment %}
+<section class="comments post-comments">
+  <script
+    src="https://giscus.app/client.js"
+    data-repo="{{ site.data.settings.giscus.repo }}"
+    data-repo-id="{{ site.data.settings.giscus.repo_id }}"
+    data-category="{{ site.data.settings.giscus.category }}"
+    data-category-id="{{ site.data.settings.giscus.category_id }}"
+    data-mapping="pathname"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="top"
+    data-theme="preferred_color_scheme"
+    data-lang="en"
+    data-loading="lazy"
+    crossorigin="anonymous"
+    async
+  ></script>
+</section>
