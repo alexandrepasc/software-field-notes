@@ -47,7 +47,7 @@ test.describe('Post pages', () => {
         const p = [
           'https://x.com/intent/tweet',
           'https://www.facebook.com/sharer',
-          'https://mastodon.social/share',
+          'https://share.joinmastodon.org/',
           'https://www.linkedin.com/sharing/share-offsite/',
           'https://app.daily.dev/suggest',
         ];
@@ -56,7 +56,7 @@ test.describe('Post pages', () => {
     );
     expect(networks).toEqual([
       'https://x.com/intent/tweet',
-      'https://mastodon.social/share',
+      'https://share.joinmastodon.org/',
       'https://www.linkedin.com/sharing/share-offsite/',
       'https://app.daily.dev/suggest',
       'https://www.facebook.com/sharer',
@@ -77,9 +77,22 @@ test.describe('Post pages', () => {
     await expect(
       page.locator('.post-share .sharing-icons a[href^="https://www.linkedin.com/sharing/share-offsite/"]')
     ).toHaveCount(1);
-    await expect(
-      page.locator('.post-share .sharing-icons a[href^="https://mastodon.social/share?text="]')
-    ).toHaveCount(1);
+    const mastodon = page.locator(
+      '.post-share .sharing-icons a[href^="https://share.joinmastodon.org/#text="]'
+    );
+    await expect(mastodon).toHaveCount(1);
+
+    // The official share widget takes a #text= fragment (never sent to any
+    // server); it must decode to "<title>\n\n<canonical post URL>".
+    // URLSearchParams mirrors how share.joinmastodon.org parses the hash.
+    const mastoHref = await mastodon.getAttribute('href');
+    const sharedText = new URLSearchParams(
+      mastoHref.slice(mastoHref.indexOf('#') + 1)
+    ).get('text');
+    expect(sharedText).toBe(
+      'Quickshell System Updates Plugin\n\n' +
+        'https://alexandrepasc.github.io/software-field-notes/system-updates-qml-plugin'
+    );
 
     // daily.dev has no share-intent API: the button opens their source
     // suggestion form and renders the inline-SVG brand mark.

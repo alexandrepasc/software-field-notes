@@ -4,14 +4,18 @@
     <!-- Share intents follow the social list order from _data/settings.yml
          (X, Mastodon, LinkedIn, daily.dev); Facebook is share-only.
          absolute_url yields the canonical post URL in every environment.
-         Params are url_encode'd so titles with spaces/& survive. -->
+         Params are url_encode'd so titles with spaces/& survive.
+         Mastodon has no single share domain, so we link to the official
+         widget (share.joinmastodon.org). The #text= fragment never reaches
+         a server; the widget asks the visitor for their instance and then
+         opens <instance>/share with "title\n\nurl" prefilled. -->
     <a
       href="https://x.com/intent/tweet?text={{ page.title | url_encode }}&amp;url={{ page.url | absolute_url | url_encode }}"
       target="_blank"
       ><i class="fa fa-brands fa-x-twitter" aria-hidden="true"></i
     ></a>
     <a
-      href="https://mastodon.social/share?text={{ page.title | append: ' ' | append: page.url | absolute_url | url_encode }}"
+      href="https://share.joinmastodon.org/#text={{ page.title | url_encode }}%0A%0A{{ page.url | absolute_url | url_encode }}"
       target="_blank"
       ><i class="fa fa-brands fa-mastodon" aria-hidden="true"></i
     ></a>
