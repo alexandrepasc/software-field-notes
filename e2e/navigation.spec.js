@@ -27,10 +27,14 @@ test.describe('Navigation', () => {
 
   test('category pages render the posts in their category', async ({ page }) => {
     const cases = [
-      { path: '/development', title: 'Development', expectedPost: '/system-updates-qml-plugin' },
+      {
+        path: '/development',
+        title: 'Development',
+        expectedPosts: ['/system-updates-qml-plugin', '/sway-modes-qml-plugin'],
+      },
     ];
 
-    for (const { path, title, expectedPost } of cases) {
+    for (const { path, title, expectedPosts } of cases) {
       await page.goto(path);
       await expect(page).toHaveTitle(new RegExp(title));
 
@@ -39,7 +43,10 @@ test.describe('Navigation', () => {
       const hrefs = await links.evaluateAll((anchors) =>
         anchors.map((a) => a.getAttribute('href'))
       );
-      expect(hrefs.map((href) => new URL(href, page.url()).pathname)).toContain(expectedPost);
+      const paths = hrefs.map((href) => new URL(href, page.url()).pathname);
+      for (const expectedPost of expectedPosts) {
+        expect(paths).toContain(expectedPost);
+      }
     }
   });
 

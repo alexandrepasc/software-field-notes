@@ -4,7 +4,7 @@ title: "Quickshell Sway Modes Plugin"
 author: "Alexandre Pascoal"
 categories: [development]
 tags: [linux, qml, quickshell, dms, sway]
-image: 2026-08-23-system-updates-qml-plugin/main-img.jpg
+image: 2026-08-30-sway-modes-qml-plugin/main-img.jpg
 ---
 
 In the same spirit as my earlier post, [Quickshell System Updates Plugin](https://alexandrepasc.github.io/software-field-notes/system-updates-qml-plugin), I created another plugin to integrate the [Dank Material Shell](https://danklinux.com/) and [SwayWM](https://swaywm.org/).
@@ -37,6 +37,10 @@ The problem with this is that when using the _OS_ we have no way of knowing what
 In _DMS_ there is a plugin that displays the mode that is active but it only works for _Hyprland_, and since I'm using _sway_... you know what I did.
 
 I created a plugin to display the name of the active mode in the _Dank Bar_, using the theme style. It only displays the name of the mode if the active is not the _default_.
+
+![Bar icon]({{ site.github.url }}/assets/img/2026-08-30-sway-modes-qml-plugin/bar-icon.png)
+
+![Bar item]({{ site.github.url }}/assets/img/2026-08-30-sway-modes-qml-plugin/bar-item.png)
 
 ## Resolution
 

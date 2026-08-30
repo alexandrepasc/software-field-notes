@@ -2,9 +2,14 @@
 'use strict';
 
 const { test, expect } = require('@playwright/test');
-const { POST_PATHS, expectNoBrokenInternalLinks } = require('./helpers');
+const { expectNoBrokenInternalLinks } = require('./helpers');
 
-const POST_PATH = POST_PATHS[0];
+// The older post carries the detailed share/giscus assertions; the newer
+// sway-modes post gets its own tests below (title/date/hero, inline images,
+// related posts). POST_PATHS in helpers.js keeps them both for the
+// home/category/tag/feed assertions.
+const POST_PATH = '/system-updates-qml-plugin';
+const SWAY_POST_PATH = '/sway-modes-qml-plugin';
 
 test.describe('Post pages', () => {
   test('renders title, date and author', async ({ page }) => {
@@ -116,11 +121,81 @@ test.describe('Post pages', () => {
     expect(await svg.getAttribute('viewBox')).toBe('0 5.2945 24 13.411');
   });
 
-  test('related-posts section stays empty while only one post exists', async ({ page }) => {
-    await page.goto(POST_PATH);
-    await expect(page.locator('.related h2')).toContainText('You may also enjoy');
-    // Related posts are other posts sharing tags; there is nothing else yet.
-    await expect(page.locator('.related-posts li')).toHaveCount(0);
+  test('related-posts link to the other post sharing tags', async ({ page }) => {
+    // The posts share most tags, so each one lists the other as related
+    // (deduplicated by _includes/related-posts.html).
+    for (const [path, relatedPath] of [
+      [SWAY_POST_PATH, POST_PATH],
+      [POST_PATH, SWAY_POST_PATH],
+    ]) {
+      await page.goto(path);
+      await expect(page.locator('.related h2')).toContainText('You may also enjoy');
+      const items = page.locator('.related-posts li');
+      await expect(items, `${path} should list one related post`).toHaveCount(1);
+      const href = await items.locator('a').getAttribute('href');
+      expect(new URL(href, page.url()).pathname).toBe(relatedPath);
+    }
+  });
+
+  test('sway modes post renders title, date, author and its hero image', async ({
+    page,
+    request,
+  }) => {
+    await page.goto(SWAY_POST_PATH);
+    await expect(page.locator('.post-content > h1')).toContainText(
+      'Quickshell Sway Modes Plugin'
+    );
+    await expect(page.locator('.post-content > .post-date')).toContainText(
+      'Written on August 30th, 2026 by Alexandre Pascoal'
+    );
+
+    // The post sets `image:` front matter, so it renders a featured block
+    // whose image resolves and whose alt falls back to the post title.
+    const featured = page.locator('.featured-image img');
+    await expect(featured).toHaveCount(1);
+    const featuredSrc = await featured.getAttribute('src');
+    const featuredResponse = await request.get(featuredSrc);
+    expect(featuredResponse.status(), `${featuredSrc} should load`).toBe(200);
+    await expect(featured).toHaveAttribute('alt', 'Quickshell Sway Modes Plugin');
+  });
+
+  test('sway modes post shows its bar screenshots in the Solution section', async ({
+    page,
+    request,
+  }) => {
+    await page.goto(SWAY_POST_PATH);
+
+    // Both bar screenshots are embedded in the body and must resolve.
+    const imgs = page.locator('.post-content article img');
+    await expect(imgs).toHaveCount(2);
+    const srcs = await imgs.evaluateAll((imgs) => imgs.map((img) => img.getAttribute('src')));
+    for (const src of srcs) {
+      expect(src, 'inline images use the per-post asset folder').toContain(
+        '/assets/img/2026-08-30-sway-modes-qml-plugin/'
+      );
+      const response = await request.get(src);
+      expect(response.status(), `${src} should load`).toBe(200);
+    }
+
+    // This plugin has no settings panel, so no settings screenshot may remain.
+    await expect(
+      page.locator('.post-content article img[src*="settings.png"]')
+    ).toHaveCount(0);
+
+    // They illustrate the Solution paragraph: both must sit before the
+    // "Resolution" heading.
+    const placement = await page.evaluate(() => {
+      const article = document.querySelector('.post-content article');
+      const imgs = article.querySelectorAll('img');
+      const resolution = [...article.querySelectorAll('h2')].find(
+        (h) => h.textContent === 'Resolution'
+      );
+      const beforeResolution = (img) =>
+        !!resolution &&
+        img.compareDocumentPosition(resolution) === Node.DOCUMENT_POSITION_FOLLOWING;
+      return [...imgs].map(beforeResolution);
+    });
+    expect(placement.every(Boolean)).toBe(true);
   });
 
   test('renders the giscus comments embed with the configured repository', async ({ page }) => {

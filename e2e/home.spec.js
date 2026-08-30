@@ -27,7 +27,8 @@ test.describe('Home page', () => {
     await page.goto('/');
     const cards = page.locator('.featured-post');
     await expect(cards.first()).toBeVisible();
-    await expect(cards.first()).toContainText('Quickshell System Updates Plugin');
+    // Newest post renders first (site.posts order).
+    await expect(cards.first()).toContainText('Quickshell Sway Modes Plugin');
 
     // Every post currently sets an `image:` front matter, so every card must
     // carry a background image — and each URL has to actually resolve.
@@ -64,7 +65,7 @@ test.describe('Home page', () => {
     await expectNoBrokenInternalLinks(page, request);
   });
 
-  test('has no pagination links with a single post', async ({ page }) => {
+  test('has no pagination links while all posts fit on one page', async ({ page }) => {
     await page.goto('/');
     await expect(page.locator('.pagination')).toBeVisible();
     // All posts fit on one page (paginate: 5), so the buttons are spans, not links.
