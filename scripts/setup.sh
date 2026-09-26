@@ -128,6 +128,10 @@ say "Verifying tests..."
 npm test
 
 ok "Setup complete."
-printf 'Serve with:\n    BUNDLE_GEMFILE=%s bundle exec jekyll serve\n' "$BUNDLE_GEMFILE"
+# `npm run serve` is the command the README/AGENTS docs all point at, and it
+# passes --baseurl '' — without that flag the site mounts under
+# /software-field-notes/ while asset links stay root-relative, so every
+# CSS/JS/image 404s. Don't "simplify" this back to a bare jekyll serve.
+printf 'Serve with:\n    npm run serve\n'
 printf 'Run tests with:\n    npm test\n'
 printf 'Then open http://localhost:4000\n'

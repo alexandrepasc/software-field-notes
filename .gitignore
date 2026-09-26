@@ -2,6 +2,7 @@ _site
 _site-test
 Gemfile.lock
 Gemfile.local
+Gemfile.local.lock
 .bundle
 .sass-cache
 .jekyll-metadata
