@@ -24,7 +24,7 @@ Dark mode is the default; the light palette is applied via a
 
 ## Getting started
 
-Fedora one-shot setup:
+Fedora / Void Linux one-shot setup:
 
 ```bash
 scripts/setup.sh   # installs toolchain, Ruby, Node.js, bundler,
@@ -95,7 +95,7 @@ tag pages, theme toggle, and RSS/Atom/sitemap feeds.
 ├── scripts/
 │   ├── serve.js               # zero-dependency static server for tests
 │   ├── generate_tag_pages.rb  # tag pages for GitHub Pages safe mode
-│   └── setup.sh               # Fedora bootstrap
+│   └── setup.sh               # Fedora/Void Linux bootstrap
 ├── _config.yml          # build settings + canonical url/baseurl
 └── rss-feed.xml         # RSS 2.0 feed (Atom comes from jekyll-feed)
 ```

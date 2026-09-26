@@ -10,8 +10,9 @@ Practical guide to developing and testing **Software Field Notes** on your machi
 | Node.js + npm | Playwright e2e tests, static server |
 | Chromium | Headless browser for tests (downloaded once by Playwright) |
 
-On Fedora, `scripts/setup.sh` automates the whole toolchain (Ruby, Node.js,
-bundler, Playwright + chromium) and finishes by running the build and the tests.
+On Fedora or Void Linux, `scripts/setup.sh` automates the whole toolchain (Ruby,
+Node.js, bundler, Playwright + chromium) and finishes by running the build and
+the tests. It detects the package manager, so the same command works on both.
 
 ## One-time setup
 
@@ -20,6 +21,21 @@ bundle install                   # Ruby dependencies (uses millennial.gemspec)
 npm install                      # Node/Playwright dependencies
 npx playwright install chromium  # download the test browser
 ```
+
+**If `bundle install` fails with `Bundler::PermissionError`** (it tries to write
+to a root-owned `/usr/lib/ruby/gems`, which is what Void Linux gives you), give
+Bundler a writable path of your own:
+
+```bash
+bundle config set --local path .bundle   # gems land in .bundle/ (gitignored)
+bundle install
+```
+
+`scripts/setup.sh` does this for you when it detects a non-writable gem
+directory, so you only need it if you skipped the script. Note that
+`npx playwright install --with-deps` is Fedora-only: on other distributions
+install the Chromium runtime libraries with your own package manager and run
+plain `npx playwright install chromium`.
 
 ## Preview the site
 

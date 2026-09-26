@@ -42,8 +42,9 @@ npx playwright install chromium  # one-time: download the test browser
 npm test                   # builds the site, serves _site/ on :4000, runs e2e
 ```
 
-On Fedora, `scripts/setup.sh` automates the whole setup (toolchain, Ruby, Node.js,
-bundler, Playwright + chromium) and finishes by running the build and `npm test`.
+On Fedora or Void Linux, `scripts/setup.sh` automates the whole setup (toolchain, Ruby, Node.js,
+bundler, Playwright + chromium) and finishes by running the build and `npm test`. It detects the
+package manager, so the same command works on both.
 
 Notes:
 
