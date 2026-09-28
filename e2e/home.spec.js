@@ -28,7 +28,7 @@ test.describe('Home page', () => {
     const cards = page.locator('.featured-post');
     await expect(cards.first()).toBeVisible();
     // Newest post renders first (site.posts order).
-    await expect(cards.first()).toContainText('Quickshell Sway Modes Plugin');
+    await expect(cards.first()).toContainText('GIMP MCP Experiment');
 
     // Every post currently sets an `image:` front matter, so every card must
     // carry a background image — and each URL has to actually resolve.

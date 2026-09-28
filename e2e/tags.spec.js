@@ -5,29 +5,43 @@ const { test, expect } = require('@playwright/test');
 const { POST_PATHS, expectNoBrokenInternalLinks } = require('./helpers');
 
 // Every tag currently in use, across all posts.
-const TAGS = ['dms', 'linux', 'qml', 'quickshell', 'sway'];
+const TAGS = ['ai', 'dms', 'gimp', 'linux', 'mcp', 'qml', 'quickshell', 'sway', 'tools'];
 const TAG_PAGE_PATHS = TAGS.map((tag) => `/tags/${tag}`);
 
 // How many publications carry each tag (`site.tags[tag].size`).
 const TAG_COUNTS = {
+  ai: 1,
   dms: 2,
-  linux: 2,
+  gimp: 1,
+  linux: 3,
+  mcp: 1,
   qml: 2,
   quickshell: 2,
   sway: 1,
+  tools: 1,
 };
+
+// The two quickshell posts share every tag below except sway, which only the
+// newer one carries. They must be listed explicitly: POST_PATHS also holds the
+// gimp post, which is not part of these tags.
+const QUICKSHELL_PATHS = ['/sway-modes-qml-plugin', '/system-updates-qml-plugin'];
 
 // Which posts appear on each tag page, newest first (site.posts order).
 const TAG_POSTS = {
-  dms: POST_PATHS,
+  ai: ['/gimp-mcp-experiment'],
+  dms: QUICKSHELL_PATHS,
+  gimp: ['/gimp-mcp-experiment'],
   linux: POST_PATHS,
-  qml: POST_PATHS,
-  quickshell: POST_PATHS,
+  mcp: ['/gimp-mcp-experiment'],
+  qml: QUICKSHELL_PATHS,
+  quickshell: QUICKSHELL_PATHS,
   sway: ['/sway-modes-qml-plugin'],
+  tools: ['/gimp-mcp-experiment'],
 };
 
 // Tags carried by each post, matching their front matter.
 const POST_TAGS = {
+  '/gimp-mcp-experiment': ['ai', 'gimp', 'linux', 'mcp', 'tools'],
   '/sway-modes-qml-plugin': ['dms', 'linux', 'qml', 'quickshell', 'sway'],
   '/system-updates-qml-plugin': ['dms', 'linux', 'qml', 'quickshell'],
 };
@@ -72,8 +86,9 @@ test.describe('Tags', () => {
   test('tag page shows the post count and a link back to all tags', async ({ page }) => {
     await page.goto('/tags/linux');
     // Plural wording comes straight from _layouts/tag.html (count !== 1).
+    // linux is the only tag carried by all three posts.
     await expect(page.locator('.post-content > p.post-date')).toContainText(
-      '2 publications tagged'
+      '3 publications tagged'
     );
 
     // The sway tag is carried by a single post, so the singular form applies.

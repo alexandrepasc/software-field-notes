@@ -32,6 +32,14 @@ test.describe('Navigation', () => {
         title: 'Development',
         expectedPosts: ['/system-updates-qml-plugin', '/sway-modes-qml-plugin'],
       },
+      {
+        // The gimp post is the only member of the tools category; its page
+        // exists in pages/tools.md (categories need a matching page, or the
+        // landing page silently never renders).
+        path: '/tools',
+        title: 'Tools',
+        expectedPosts: ['/gimp-mcp-experiment'],
+      },
     ];
 
     for (const { path, title, expectedPosts } of cases) {
@@ -58,7 +66,7 @@ test.describe('Navigation', () => {
   });
 
   test('category pages have no broken internal links', async ({ page, request }) => {
-    for (const path of ['/development']) {
+    for (const path of ['/development', '/tools']) {
       await page.goto(path);
       await expectNoBrokenInternalLinks(page, request);
     }

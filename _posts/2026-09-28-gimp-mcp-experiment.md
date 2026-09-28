@@ -2,8 +2,8 @@
 layout: post
 title: "GIMP MCP Experiment"
 author: "Alexandre Pascoal"
-categories: [development]
-tags: [ai, mcp, gimp, linux]
+categories: [tools]
+tags: [ai, mcp, gimp, linux, tools]
 image: 2026-09-28-gimp-mcp-experiment/hero.jpg
 ---
 
@@ -19,7 +19,7 @@ For this site I need to create a hero image for each post, and that, as I descri
 
 Some weeks ago I came across someone who had created an _MCP_ for the GIMP application. Since I have been using _ChatGPT_ to generate the images for the other posts, and they are not what I tend to say that are good and/or professional (they are better and faster than I would do manually) I thought that this could be a good tool to explore.
 
-After a quick research I discovered that there are more than one _GIMP MCP_ available, and I found a list of them with some evaluation on this page: [Glama Best GIMP MCP Servers](https://glama.ai/mcp/servers/integrations/gimp). I don't know the quality of this site, it is the first time that I have seen it.
+After a quick research I discovered that there is more than one _GIMP MCP_ available, and I found a list of them with some evaluation on this page: [Glama Best GIMP MCP Servers](https://glama.ai/mcp/servers/integrations/gimp). I don't know the quality of this site, it is the first time that I have seen it.
 
 With the objective of creating a new image and not only editing an existing one, I looked at the list and at the evaluation that it has regarding _license_, _quality_, _maintenance_, and the last update, and I selected this one to test: [gimp3-mcp by tifyr](https://glama.ai/mcp/servers/tifyr/gimp3-mcp).
 

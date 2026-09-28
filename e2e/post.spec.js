@@ -4,12 +4,16 @@
 const { test, expect } = require('@playwright/test');
 const { expectNoBrokenInternalLinks } = require('./helpers');
 
-// The older post carries the detailed share/giscus assertions; the newer
-// sway-modes post gets its own tests below (title/date/hero, inline images,
-// related posts). POST_PATHS in helpers.js keeps them both for the
+// The older post carries the detailed share/giscus assertions; the sway-modes
+// and gimp posts get their own tests below (title/date/hero, inline images,
+// related posts). POST_PATHS in helpers.js keeps all three for the
 // home/category/tag/feed assertions.
 const POST_PATH = '/system-updates-qml-plugin';
 const SWAY_POST_PATH = '/sway-modes-qml-plugin';
+// Newest post, and the only one in the tools category. It carries four
+// generated images (the results comparison) plus its own hero.
+const GIMP_POST_PATH = '/gimp-mcp-experiment';
+const GIMP_ASSETS = '/assets/img/2026-09-28-gimp-mcp-experiment/';
 
 test.describe('Post pages', () => {
   test('renders title, date and author', async ({ page }) => {
@@ -121,19 +125,28 @@ test.describe('Post pages', () => {
     expect(await svg.getAttribute('viewBox')).toBe('0 5.2945 24 13.411');
   });
 
-  test('related-posts link to the other post sharing tags', async ({ page }) => {
-    // The posts share most tags, so each one lists the other as related
-    // (deduplicated by _includes/related-posts.html).
-    for (const [path, relatedPath] of [
-      [SWAY_POST_PATH, POST_PATH],
-      [POST_PATH, SWAY_POST_PATH],
+  test('related-posts link to the other posts sharing tags', async ({ page }) => {
+    // _includes/related-posts.html walks the post's tags in front-matter
+    // order, takes the two newest posts per tag, and skips ones it already
+    // listed, so the three posts are no longer symmetric. Order per post:
+    //   gimp   -> linux tag yields sway (ai/mcp/gimp only yield itself)
+    //   sway   -> linux yields gimp, then qml yields system-updates
+    //   system -> linux yields gimp and sway in one pass
+    for (const [path, relatedPaths] of [
+      [GIMP_POST_PATH, [SWAY_POST_PATH]],
+      [SWAY_POST_PATH, [GIMP_POST_PATH, POST_PATH]],
+      [POST_PATH, [GIMP_POST_PATH, SWAY_POST_PATH]],
     ]) {
       await page.goto(path);
       await expect(page.locator('.related h2')).toContainText('You may also enjoy');
-      const items = page.locator('.related-posts li');
-      await expect(items, `${path} should list one related post`).toHaveCount(1);
-      const href = await items.locator('a').getAttribute('href');
-      expect(new URL(href, page.url()).pathname).toBe(relatedPath);
+      const items = page.locator('.related-posts li a');
+      const hrefs = await items.evaluateAll((anchors) =>
+        anchors.map((a) => a.getAttribute('href'))
+      );
+      expect(
+        hrefs.map((href) => new URL(href, page.url()).pathname),
+        `${path} related posts`
+      ).toEqual(relatedPaths);
     }
   });
 
@@ -196,6 +209,45 @@ test.describe('Post pages', () => {
       return [...imgs].map(beforeResolution);
     });
     expect(placement.every(Boolean)).toBe(true);
+  });
+
+  test('gimp mcp post renders title, date, author, hero and its four result images', async ({
+    page,
+    request,
+  }) => {
+    await page.goto(GIMP_POST_PATH);
+    await expect(page.locator('.post-content > h1')).toContainText('GIMP MCP Experiment');
+    await expect(page.locator('.post-content > .post-date')).toContainText(
+      'Written on September 28th, 2026 by Alexandre Pascoal'
+    );
+
+    // `image:` front matter renders a featured block whose image resolves
+    // and whose alt falls back to the post title.
+    const featured = page.locator('.featured-image img');
+    await expect(featured).toHaveCount(1);
+    const featuredSrc = await featured.getAttribute('src');
+    expect((await request.get(featuredSrc)).status(), `${featuredSrc} should load`).toBe(200);
+    await expect(featured).toHaveAttribute('alt', 'GIMP MCP Experiment');
+
+    // The four generated result images are embedded in the body (Results
+    // section) and all live in the post's own asset folder.
+    const imgs = page.locator('.post-content article img');
+    await expect(imgs).toHaveCount(4);
+    const srcs = await imgs.evaluateAll((imgs) => imgs.map((img) => img.getAttribute('src')));
+    for (const src of srcs) {
+      expect(src, 'inline images use the per-post asset folder').toContain(GIMP_ASSETS);
+      expect((await request.get(src)).status(), `${src} should load`).toBe(200);
+    }
+    // The hero is front matter, so it must not also appear in the body.
+    await expect(page.locator('.post-content article img[src*="hero.jpg"]')).toHaveCount(0);
+
+    // The Results matrix is a 4-column table (header + 4 attempts).
+    const rows = page.locator('.post-content article table tr');
+    await expect(rows).toHaveCount(5);
+    await expect(rows.first().locator('th')).toHaveCount(4);
+    for (const cell of await rows.first().locator('th').evaluateAll((t) => t.map((e) => e.textContent.trim()))) {
+      expect(cell).not.toBe('');
+    }
   });
 
   test('renders the giscus comments embed with the configured repository', async ({ page }) => {
