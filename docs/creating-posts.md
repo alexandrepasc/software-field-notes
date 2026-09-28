@@ -111,9 +111,8 @@ Categories must have a matching page in `pages/` with `layout: category`. Curren
 
 | Category | Page | Permalink |
 |----------|------|-----------|
-| `documentation` | `pages/documentation.md` | `/documentation` |
-| `facts` | `pages/facts.md` | `/facts` |
-| `resources` | `pages/resources.md` | `/resources` |
+| `development` | `pages/development.md` | `/development` |
+| `tools` | `pages/tools.md` | `/tools` |
 
 To add a new category, create `pages/<category>.md` with:
 
