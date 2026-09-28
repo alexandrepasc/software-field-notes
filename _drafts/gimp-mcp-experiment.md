@@ -4,6 +4,7 @@ title: "GIMP MCP Experiment"
 author: "Alexandre Pascoal"
 categories: [development]
 tags: [ai, mcp, gimp, linux]
+image: 2026-09-28-gimp-mcp-experiment/hero.jpg
 ---
 
 Liking them or not, _Large Language Models_ (_LLMs_), or as we normally call them the _Artificial Intelligence_ (_AI_), are here to stay. In the _IT_ they are being pushed to be used, and in some cases we can have the opinion that it is being taken too far, but the reality is that there is a lot of repetitive work that can be automated and accelerated with it.
@@ -16,13 +17,13 @@ For this site I need to create a hero image for each post, and that, as I descri
 
 ## Finding a GIMP MCP
 
-Some weeks ago I came across someone who had created an _MCP_ for the GIMP application. Since I have been using _ChatGPT_ to generate the images for the other posts — and they are not what I tend to say that are good and/or professional (but they are better and faster than I would do manually) — I thought that this could be a good tool to explore.
+Some weeks ago I came across someone who had created an _MCP_ for the GIMP application. Since I have been using _ChatGPT_ to generate the images for the other posts, and they are not what I tend to say that are good and/or professional (they are better and faster than I would do manually) I thought that this could be a good tool to explore.
 
-After a quick research I discovered that there is more than one _GIMP MCP_ available, and I found a list of them with some evaluation on this page: [Glama Best GIMP MCP Servers](https://glama.ai/mcp/servers/integrations/gimp). I don't know the quality of this site, it is the first time that I have seen it.
+After a quick research I discovered that there are more than one _GIMP MCP_ available, and I found a list of them with some evaluation on this page: [Glama Best GIMP MCP Servers](https://glama.ai/mcp/servers/integrations/gimp). I don't know the quality of this site, it is the first time that I have seen it.
 
 With the objective of creating a new image and not only editing an existing one, I looked at the list and at the evaluation that it has regarding _license_, _quality_, _maintenance_, and the last update, and I selected this one to test: [gimp3-mcp by tifyr](https://glama.ai/mcp/servers/tifyr/gimp3-mcp).
 
-It was updated for the last time 14 days ago, has an _A_ rate for _license_ and _maintenance_. The only item that does not have any rate is _quality_. It supports _GIMP 3.2_, and has the ability to create or open images, paint, edit, and export them, and to look at the image between the steps to check its work.
+It was updated for the last time 12 days ago, has an _A_ rate for _license_ and _maintenance_. The only item that does not have any rate is _quality_. It supports _GIMP 3.2_, and has the ability to create or open images, paint, edit, and export them, and to look at the image between the steps to check its work.
 
 ## Installation and setup
 
